@@ -10,14 +10,14 @@ Theory
 --------------------------------------------------------------------------------------------------
 
 
-2. Tracklets [2]
+2. Tracklet Genearation [2]
 --------------------------------------------------------------------------------------------------
 Tracklets represent the position of an individual in a given scene at a given point of time. Many 
 tracklets can be combined to get the trajectory of the individual for the corresponding time 
 interval.
 
 
-3. SAM [Social Affinity Maps] [1]
+3. Social Affinity Maps [1]
 --------------------------------------------------------------------------------------------------
 SAM is a feature descriptor that represents the behavioral signature of neighbouring pedestrians 
 in a crowd. Each pedestrian in the crowd can be represented by SAM at a given point of time. SAM 
@@ -36,8 +36,9 @@ http://www.cvg.reading.ac.uk/PETS2009/a.html
 
 References
 ==================================================================================================
-[1]  Socially-aware Large=scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
+[1]  Socially-aware Large-scale Crowd Forecasting, 
+     Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
 [2]  A Real-Time Sparsity Driven People Localization Algorithm, 
-		 Mohammad Golbabaee, Alexandre Alahi, Pierre Vandergheynst
+     Mohammad Golbabaee, Alexandre Alahi, Pierre Vandergheynst
 [3]  Modeling social and grouping behavior on a linear programming multiple people tracker, 
      Laura Leal-Taixe, Gerard Pons-Moll and Bodo Rosenhahn

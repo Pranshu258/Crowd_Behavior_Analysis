@@ -4,9 +4,7 @@
 # Author: Pranshu Gupta, Lavisha Aggarwal
 # =============================================================================
 
-import numpy as np
 import scipy
-import cv2
 
 # -----------------------------------------------------------------------------
 # Hamming Distance
@@ -17,5 +15,5 @@ def hamming(u, v):
 # Social Affinity Map
 def sam():
 	"""sam : computes the social affinity map for a given tracklet"""
-	
+
 # -----------------------------------------------------------------------------
