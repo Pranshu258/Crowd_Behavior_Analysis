@@ -1,27 +1,28 @@
+**************************************************************************************************
 CROWD BEHAVIOUR ANALYSIS
 Author: Pranshu Gupta, Lavisha Aggarwal
 Artificial Intelligence [CS365A], Indian Institute of Technology, Kanpur
-===================================================================================================
+**************************************************************************************************
 
 Description
----------------------------------------------------------------------------------------------------
-1.	SAM [Social Affinity Maps]
-	A feature descriptor to capture the behavioral signature of neighbouring pedestrians termed
-	as Social Affinity Map (SAM) [1].
+==================================================================================================
+SAM [Social Affinity Maps]
+A feature descriptor to capture the behavioral signature of neighbouring pedestrians termed
+as Social Affinity Map (SAM) [1].
 
-2.	OD Matrix [Origin Destination Matrix]
-	Forecasting destinations is often referred to as estimating Origin-Destination Matrices [1]. 
-	It represents the starting & ending points of all pedestrian trajectories during a time period.
+OD Matrix [Origin Destination Matrix]
+Forecasting destinations is often referred to as estimating Origin=Destination Matrices [1]. 
+It represents the starting & ending points of all pedestrian trajectories during a time period.
 
-3.	OD Prior [Origin Destination Prior]
-	We often have restrictions in the way pedestrians can move in a scene, encoded as priors over 
-	origin and destination (OD) preferences. [1]
+OD Prior [Origin Destination Prior]
+We often have restrictions in the way pedestrians can move in a scene, encoded as priors over 
+origin and destination (OD) preferences. [1]
 
 DataSet
----------------------------------------------------------------------------------------------------
+==================================================================================================
 http://www.cvg.reading.ac.uk/PETS2009/a.html
 
 
 References
----------------------------------------------------------------------------------------------------
-[1]	Socially-aware Large-scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
+==================================================================================================
+[1]	Socially=aware Large=scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
