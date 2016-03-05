@@ -4,19 +4,30 @@ Author: Pranshu Gupta, Lavisha Aggarwal
 Artificial Intelligence [CS365A], Indian Institute of Technology, Kanpur
 **************************************************************************************************
 
-Description
+Theory
 ==================================================================================================
-SAM [Social Affinity Maps]
-A feature descriptor to capture the behavioral signature of neighbouring pedestrians termed
-as Social Affinity Map (SAM) [1].
+1. People Localization [1]
+--------------------------------------------------------------------------------------------------
 
-OD Matrix [Origin Destination Matrix]
-Forecasting destinations is often referred to as estimating Origin=Destination Matrices [1]. 
-It represents the starting & ending points of all pedestrian trajectories during a time period.
 
-OD Prior [Origin Destination Prior]
-We often have restrictions in the way pedestrians can move in a scene, encoded as priors over 
-origin and destination (OD) preferences. [1]
+2. Tracklets [2]
+--------------------------------------------------------------------------------------------------
+Tracklets represent the position of an individual in a given scene at a given point of time. Many 
+tracklets can be combined to get the trajectory of the individual for the corresponding time 
+interval.
+
+
+3. SAM [Social Affinity Maps] [1]
+--------------------------------------------------------------------------------------------------
+SAM is a feature descriptor that represents the behavioral signature of neighbouring pedestrians 
+in a crowd. Each pedestrian in the crowd can be represented by SAM at a given point of time. SAM 
+is essentially a radial histogram representation of the neighborhood of the pedestrian.
+It captures the number of tracklets in a small neighborhood of the pedestrian and bins them in 
+10 segments, thus constructing the histogram. 
+This histogram is then quantized to get a binary vector of 10 components. We use HAMMING DISTANCE 
+as the distance measure between two SAM descriptors.
+
+
 
 DataSet
 ==================================================================================================
@@ -25,4 +36,8 @@ http://www.cvg.reading.ac.uk/PETS2009/a.html
 
 References
 ==================================================================================================
-[1]	Socially=aware Large=scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
+[1]  Socially-aware Large=scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
+[2]  A Real-Time Sparsity Driven People Localization Algorithm, 
+		 Mohammad Golbabaee, Alexandre Alahi, Pierre Vandergheynst
+[3]  Modeling social and grouping behavior on a linear programming multiple people tracker, 
+     Laura Leal-Taixe, Gerard Pons-Moll and Bodo Rosenhahn
