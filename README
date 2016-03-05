@@ -6,11 +6,22 @@ Artificial Intelligence [CS365A], Indian Institute of Technology, Kanpur
 
 Theory
 ==================================================================================================
-1. People Localization [1]
+1. People Localization [2]
 --------------------------------------------------------------------------------------------------
+Detection and localization of people in the image is the first step to track pedestrians in a 
+crowd scene. This can be done by first extracti9ng the foreground from the scene, quantizing it 
+and then concatenating other such quantizations obtained from different camera views.
+This concatenation is represented as bit-vector of length M. (M is the sum of resolutions of all
+the cameras involved). This bit-vector is called Multi-Silhouette Vector (MSV).
+Then the shape of people is approximated as rectangles (or half ellipse half rectangle) [4] 
+Such approximation is used to construct atoms of a dictionary D ∈ {0, 1}M×N. Each column of the 
+dictionary, i.e. each atom, represents the approximated multi-view silhouette observed at a given 
+ground plane point. A typical dictionary contains as many columns as the discretized ground plane 
+points in the scene.
 
 
-2. Tracklet Genearation [2]
+
+2. Tracklet Generation [3]
 --------------------------------------------------------------------------------------------------
 Tracklets represent the position of an individual in a given scene at a given point of time. Many 
 tracklets can be combined to get the trajectory of the individual for the corresponding time 
