@@ -39,4 +39,5 @@ def dumpData(rootDir):
 
 # -----------------------------------------------------------------------------
 
+# Preprocessing of the data
 dumpData(rootDir)
