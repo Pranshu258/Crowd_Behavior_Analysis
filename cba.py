@@ -4,26 +4,39 @@
 # Author: Pranshu Gupta, Lavisha Aggarwal
 # =============================================================================
 
-import scipy
-import csv
+import scipy, csv, pickle, os
 
 # -----------------------------------------------------------------------------
+rootDir = 'data/csv/'
+# -----------------------------------------------------------------------------
 
-# Hamming Distance
-def hamming(u, v):
-	"""hamming : computes the hamming distance between two bit-vectors"""
-	return scipy.spatial.distance.hamming(u, v)
-
-# Social Affinity Map
-def sam():
-	"""sam : computes the social affinity map for a given tracklet"""
-
-# CSV Reader
 def getData(filename):
-	DATA = []
 	csvfile = open(filename, newline='')
 	data = csv.reader(csvfile, delimiter=' ', quotechar='|')
+	dump = {}
 	for row in data:
-		print(', '.join(row).split(";"))
+		r = ', '.join(row).split(";")
+		t, m, x, y, p = (r[0].split('T')[1])[:-4], r[1], int(int(r[2])/(3*6700)), int(int(r[3])/(3*6700)), int(r[4])
+		if t not in dump:
+			dump[t] = {(x,y):set([p])}
+			# print(len(dump))
+		else:
+			if (x,y) not in dump[t]:
+				dump[t][(x,y)] = set([])
+			dump[t][(x,y)].add(p)
+	return dump
+
+def dumpData(rootDir):
+	files = os.listdir(rootDir)
+	i = 0
+	for filename in files:
+		fname = rootDir + filename
+		data = getData(fname)
+		dumpfile = open('data/frames/day' + str(i) + '.pickle', 'wb')
+		pickle.dump(data, dumpfile, pickle.HIGHEST_PROTOCOL)
+		print('day ' + str(i) + ' done')
+		i = i + 1
 
 # -----------------------------------------------------------------------------
+
+dumpData(rootDir)

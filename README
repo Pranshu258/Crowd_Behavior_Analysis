@@ -1,27 +1,5 @@
 **************************************************************************************************
 CROWD BEHAVIOUR ANALYSIS
-Author: Pranshu Gupta, Lavisha Aggarwal
+Authors: Pranshu Gupta, Lavisha Aggarwal
 Artificial Intelligence [CS365A], Indian Institute of Technology, Kanpur
 **************************************************************************************************
-
-Theory
-==================================================================================================
-1. Social Affinity Maps [1]
---------------------------------------------------------------------------------------------------
-SAM is a feature descriptor that represents the behavioral signature of neighbouring pedestrians 
-in a crowd. Each pedestrian in the crowd can be represented by SAM at a given point of time. SAM 
-is essentially a radial histogram representation of the neighborhood of the pedestrian.
-It captures the number of tracklets in a small neighborhood of the pedestrian and bins them in 
-10 segments, thus constructing the histogram. 
-This histogram is then quantized to get a binary vector of 10 components. We use HAMMING DISTANCE 
-as the distance measure between two SAM descriptors.
-
-DataSet
-==================================================================================================
-http://www.ivpe.com/crowddata.htm
-
-
-References
-==================================================================================================
-[1]  Socially-aware Large-scale Crowd Forecasting, 
-     Alexandre Alahi, Vignesh Ramanathan, Li Fei-Fei
