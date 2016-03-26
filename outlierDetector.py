@@ -6,7 +6,6 @@
 # -------------------------------------------------------------------------------------------------
 
 import numpy as np, math
-from distance import *
 
 # -------------------------------------------------------------------------------------------------
 # DEFINITIONS
@@ -25,7 +24,7 @@ from distance import *
 def tp_distance(L1, L2):
 	s1x, s1y, e1x, e1y = L1[0][0], L1[0][1], L1[1][0], L1[1][1]
 	s2x, s2y, e2x, e2y = L2[0][0], L2[0][1], L2[1][0], L2[1][1]
-	D = np.linalg.norm([s2y-s1y, s2x-s1x]), np.linalg.norm([e2y-e1y, e2x-e1x])
+	D = np.linalg.norm([s2y-s1y, s2x-s1x]) + np.linalg.norm([e2y-e1y, e2x-e1x])
 	return D
 
 # This method returns the length of a t-partition
@@ -45,8 +44,11 @@ def mdl_par(t, s, e):
 	d = 0
 	for i in range(s, e):
 		x0, y0 = t[i][0], t[i][1]
+		# if the point lies within the line segment
+
 		di = math.fabs((Dy*x0 - Dx*y0 + x2*y1 - y2*x1)/D)
 		d = d + di
+
 	ldh = d/pfactor
 	mdl = ld+ldh
 	return mdl
@@ -101,7 +103,7 @@ def traod(T, D, p, F):
 					CTR_count = CTR_count + 1
 		# Calculate the density
 		sd = standard_deviation(distances)
-		density = len([d for d in distances if d <= sd]))
+		density = len([d for d in distances if d <= sd])
 		if CTR_count/density < p*len(T):
 			Li[2] = 1
 	# MARKING PHASE
