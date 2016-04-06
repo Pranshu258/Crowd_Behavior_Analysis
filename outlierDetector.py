@@ -8,6 +8,7 @@
 import numpy as np, math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from copy import deepcopy
 
 # -------------------------------------------------------------------------------------------------
 # DEFINITIONS
@@ -28,12 +29,92 @@ def standard_deviation(l):
 
 # Distance between two t-partitions
 # This is not the distance measure used in the paper by Lee et. al.
+# def tp_distance(L1, L2):
+# 	# print("L1 = ", L1, "L2 = ", L2)
+# 	s1x, s1y, e1x, e1y = L1[0][0], L1[0][1], L1[1][0], L1[1][1]
+# 	s2x, s2y, e2x, e2y = L2[0][0], L2[0][1], L2[1][0], L2[1][1]
+# 	D = np.linalg.norm([s2y-s1y, s2x-s1x]) + np.linalg.norm([e2y-e1y, e2x-e1x])
+# 	return D
+
+# This function returns the projection point P2 of a point P1 on a line L
+def projPointOnLine(point, line_2pt):
+    # The point is of the form x,y and line_pt contains p1x,p1y,p2x,p2y
+    line = [1,1,1,1]
+
+    line[0]= line_2pt[0]
+    line[1]= line_2pt[1];
+    line[2]= line_2pt[2]-line_2pt[0];
+    line[3]= line_2pt[3]-line_2pt[1];
+        
+    # direction vector of the line
+    vx = line[2];
+    vy = line[3];
+
+    # difference of point with line origin
+    dx = point[0] - line[0];
+    dy = point[1] - line[1];
+    #print(line_2pt)
+    # Position of projection on line, using dot product
+    tp = (dx* vx + dy* vy ) / (vx * vx + vy * vy);
+
+    # convert position on line to cartesian coordinates
+    point[0] = line[0] + tp* vx;
+    point[1] = line[1] + tp* vy;
+    return [point[0],point[1]]
+
+#This method determines the all the three distances between L1 and L2  
 def tp_distance(L1, L2):
-	# print("L1 = ", L1, "L2 = ", L2)
-	s1x, s1y, e1x, e1y = L1[0][0], L1[0][1], L1[1][0], L1[1][1]
-	s2x, s2y, e2x, e2y = L2[0][0], L2[0][1], L2[1][0], L2[1][1]
-	D = np.linalg.norm([s2y-s1y, s2x-s1x]) + np.linalg.norm([e2y-e1y, e2x-e1x])
-	return D
+
+    w1, w2, w3 = 1.0, 1.0, 1.0
+
+    if length(L1) > length(L2):
+        temp = deepcopy(L2)
+        L2 = deepcopy(L1)
+        L1 = deepcopy(temp)
+
+    point1 = [L2[0][0], L2[0][1]]
+    line_2pt1 = [L1[0][0], L1[0][1], L1[1][0], L1[1][1]] 
+    proj1 = projPointOnLine(point1, line_2pt1)
+
+    point2 = [L1[0][0], L1[0][1]]
+    line_2pt2 = [L2[0][0], L2[0][1], L2[1][0], L2[1][1]] 
+    proj2 = projPointOnLine(point2, line_2pt2)
+    
+    six, siy, eix, eiy = L1[0][0], L1[0][1], L1[1][0], L1[1][1]
+    sjx, sjy, ejx, ejy = L2[0][0], L2[0][1], L2[1][0], L2[1][1]
+
+    #Computing the perpendicular distance
+    lper1 = np.linalg.norm([sjy-proj1[1], sjx-proj1[0]])
+    lper2 = np.linalg.norm([siy-proj2[1], six-proj2[0]])
+
+    Dper = (math.pow(lper1,2)+ math.pow(lper2,2))/(lper1+lper2)
+    
+    #Computing the parallel distance
+    lpar1 = min(np.linalg.norm([siy-proj1[1], six-proj1[0]]),np.linalg.norm([eiy-proj1[1], eix-proj1[0]]))
+    lpar2 = min(np.linalg.norm([siy-proj2[1], six-proj2[0]]),np.linalg.norm([eiy-proj2[1], eix-proj1[0]]))
+    Dpar = min(lpar1, lpar2)
+    
+    #Computing the angle distance
+    x1 = ejx-sjx
+    y1 = ejy-sjy
+    x2 = eix-six
+    y2 = eiy-siy
+    inner_product = x1*x2 + y1*y2
+    costheta = inner_product/(np.linalg.norm([x1, y1])*np.linalg.norm([x2, y2]))
+    #print(x1, y1, x2, y2, inner_product, (np.linalg.norm([x1, y1])*np.linalg.norm([x2, y2])), costheta)
+    if costheta < -1:
+    	costheta = -1
+    elif costheta > 1:
+    	costheta = 1
+    angle = math.acos(costheta)
+
+    if angle < (math.pi/2):
+        Dang = math.sin(angle)*length(L2)
+    else:
+        Dang = length(L2) 
+
+    return w1*Dper + w2*Dpar + w3*Dang
+ 
 
 # This method returns the length of a t-partition
 def length(segment):
@@ -51,6 +132,7 @@ def partition(T):
 
 def detect(T, L, D, P):
 	outlier_count = 0
+	c = 0
 	for Li in L:
 		distances = []
 		CTR_count = 0
@@ -59,6 +141,7 @@ def detect(T, L, D, P):
 				matchLen = 0
 				for i in range(len(T[p])-1):
 					segment = [T[p][i], T[p][i+1]]
+					#print(segment, p)
 					dist = tp_distance(Li[0], segment)
 					distances.append(dist)
 					if dist < D:
@@ -72,6 +155,10 @@ def detect(T, L, D, P):
 		if CTR_count/density < P*len(T):
 			Li[2] = 1
 			outlier_count += 1
+			print("Outlying Segment Found: ", Li)
+		c = c + 1
+		print(np.mean(distances))
+		print(c)
 	return L, outlier_count
 
 def mark(T, L, F):
@@ -88,6 +175,7 @@ def mark(T, L, F):
 			tlen = tlen + length(segment)
 		if olen/tlen > F:
 			otraj.append(p)
+		print(p)
 	return otraj
 
 # The outlier detection algorithm
@@ -136,14 +224,15 @@ def trajectory(filename, N):
     for row in data:
         r = ', '.join(row).split(";")
         t2, m2, x2, y2, p2 = gettime((r[0].split('T')[1])[:-4]), r[1], int(int(r[2])/67), int(int(r[3])/67), int(r[4])
-        if (p1 == p2 and (x1 != x2 or y1 != y2) and t1 != t2):
-            trajectory[P].append([x2,y2])
+        if (p1 == p2 and t1 != t2):
+            if trajectory[P][len(trajectory[P])-1][0] != x2 or trajectory[P][len(trajectory[P])-1][1] != y2:
+                trajectory[P].append([x2,y2])
         if p1 != p2:
             P = P + 1
             if not P <= N:
-            	break
+                break
             trajectory[P] = [[x2,y2]]
-        t1, m1, x1, y1, p1 = t2, m2, x2, y2, p2
+        t1, m1, p1, x1, y1 = t2, m2, p2, x2, y2
     return trajectory
 
 def plot_trajectory(traj):
@@ -168,8 +257,8 @@ def plot_trajectory(traj):
 ###################################################################################################
 # EXECUTION SECTION
 
-T = trajectory(filename, 50)
-# O = traod(T, 50, 0.01, 0.4)
+T = trajectory(filename, 10)
+O = traod(T, 20, 0.01, 0.4)
 
 ###################################################################################################
 # RESULTS PLOTTING SECTION
