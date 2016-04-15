@@ -121,6 +121,48 @@ def length(segment):
 	sx, sy, ex, ey = segment[0][0], segment[0][1], segment[1][0], segment[1][1]
 	return np.linalg.norm([ex-sx, ey-sy])
 
+# Minimum Description Length Cost with partitioning
+def mdl_par(t, s, e):
+    pfactor = 2
+    # This is the mdl cost when we partition the trajectory and do not keep the original points
+    ld = length([t[s],t[e]])
+    # Calculate ldh here
+    x1, y1, x2, y2 = t[s][0], t[s][1], t[e][0], t[e][1]
+    Dx, Dy = x2-x1, y2-y1
+    D = np.linalg.norm([Dx, Dy])
+    d = 0
+    for i in range(s, e):
+        x0, y0 = t[i][0], t[i][1]
+        di = math.fabs((Dy*x0 - Dx*y0 + x2*y1 - y2*x1)/D)
+        d = d + di
+    ldh = d/pfactor
+    mdl = ld+ldh
+    return mdl
+
+# Minimum Description Length Cost without partitioning
+def mdl_nopar(t, s, e):
+    tlen = 0
+    for i in range(s,e):
+        tlen = tlen + length([t[i],t[i+1]])
+    return tlen
+
+# Trajectory partitioning algorithm
+def mdl_partition(t):
+    cp = [t[0]]
+    si, l = 1, 1
+    while si + l <= len(t):
+        ci = si + l
+        cost_par = mdl_par(t,si,ci)
+        cost_nopar = mdl_nopar(t, si,ci)
+        # If partitioning cost is greater than the no-partitioning cost, keep the original point
+        if cost_par > cost_nopar:
+            cp.append(t[ci-1])
+            si, l = ci-1, 1
+        else:
+            l = l + 1
+    cp.append(t[-1])
+
+
 def partition(T):
 	L = []
 	for p in T:
