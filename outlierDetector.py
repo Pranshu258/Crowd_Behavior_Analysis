@@ -155,10 +155,10 @@ def detect(T, L, D, P):
 		if CTR_count/density < P*len(T):
 			Li[2] = 1
 			outlier_count += 1
-			print("Outlying Segment Found: ", Li)
+			# print("Outlying Segment Found: ", Li)
 		c = c + 1
-		print(np.mean(distances))
-		print(c)
+		# print(np.mean(distances))
+		# print(c)
 	return L, outlier_count
 
 def mark(T, L, F):
@@ -175,7 +175,7 @@ def mark(T, L, F):
 			tlen = tlen + length(segment)
 		if olen/tlen > F:
 			otraj.append(p)
-		print(p)
+		# print(p)
 	return otraj
 
 # The outlier detection algorithm
@@ -185,13 +185,13 @@ def traod(T, D, P, F):
 	print("Partition Phase Begins ...")
 	L = partition(T)
 	print("Partition Done !")
-	print("Total Number of Segments: ", len(L))
-	print("Outlying Segment Detection Phase Begins ...")
+	print("Total Number of t-partitions: ", len(L))
+	print("Outlying t-partition Detection Phase Begins ...")
 	# DETECTION PHASE
 	# For each t-partition in L count the number of trajectories that are close to it
 	L, outlier_count = detect(T, L, D, P)
-	print("Outlying Segment Detection Done !")
-	print("Number of Outlying Segments: ", outlier_count, " of ", len(L))
+	print("Outlying t-partition Detection Done !")
+	print("Number of Outlying t-partitions: ", outlier_count, " of ", len(L))
 	print("Outlying Trajectory Detection Phase Begins ...")
 	# MARKING PHASE
 	otraj = mark(T, L, F)
@@ -235,19 +235,24 @@ def trajectory(filename, N):
         t1, m1, p1, x1, y1 = t2, m2, p2, x2, y2
     return trajectory
 
-def plot_trajectory(traj):
+def plot_trajectory(traj, p):
     x, y, t = [], [], []
     i = 1
     for point in traj:
         x.append(point[0])
         y.append(point[1])
         i = i + 1
-        t.append(i)
+    #     t.append(i)
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.plot(x,y,t)
-    plt.show()
-
+    # ax = fig.add_subplot(111, projection='3d')
+    # ax.plot(x,y,t)
+    # plt.show()
+    plt.plot(x, y)
+    # plt.show()
+    fig.suptitle('TRAJECTORY ID: ' + str(p))
+    plt.xlabel('x')
+    plt.ylabel('y')
+    fig.savefig(str(p) + '.png')
 # Synthetic data generation method
 # def addbad_trajectories(T):
 # 	i = len(T)+1
@@ -259,8 +264,8 @@ def plot_trajectory(traj):
 
 T = trajectory(filename, 10)
 O = traod(T, 20, 0.01, 0.4)
-
+print("Outliers: ", O)
 ###################################################################################################
 # RESULTS PLOTTING SECTION
-# for p in O:
-# 	plot_trajectory(T[p])
+for p in T:
+	plot_trajectory(T[p], p)
