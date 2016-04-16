@@ -3,3 +3,72 @@ CROWD BEHAVIOUR ANALYSIS
 Authors: Pranshu Gupta, Lavisha Aggarwal
 Artificial Intelligence [CS365A], Indian Institute of Technology, Kanpur
 **************************************************************************************************
+ABSTRACT 
+Crowd behavior analysis is an important field of research in modern world. It has wide applications 
+in surveillance and public safety which are one of the prime social concerns. One way to analyze 
+crowd behavior is obtain crowd movement data and then find out outliers in the individual trajectories 
+to infer any abnormal behavior in the crowd.  
+
+INTRODUCTION 
+We have implemented a system that takes a set of trajectories obtained from crowd data and detects 
+the outliers in that set. A trajectory is a sequence of points (𝑥,𝑦,𝑡), where x, y are the ground
+coordinates of the person at time t. 
+
+METHODOLOGY
+We have implemented the Trajectory Outlier Detection algorithm as proposed in [1]. The algorithm 
+detects the outliers from a given set of trajectories. There are three phases in this algorithm: 
+1. Partition 
+2. Detection 
+3. Marking 
+
+PARTITION PHASE 
+All the trajectories are partitioned into line segments and all the segments are collectively sent
+to the detection phase. These line segments are called t-partitions. 
+The technique used for partitioning a trajectory in smaller line segments is based on the principle 
+of Minimum Description Length [3].  We aim at finding the points in the trajectory where the behavior
+of the trajectory changes rapidly. These points are called characteristic points. Then, the trajectory 
+is partitioned at every characteristic point found in it and then represented by a set of line 
+segments that join two consecutive characteristic points.  
+ 
+THE MINIMUM DESCRIPTION LENGTH PRINCIPLE [3] 
+The optimal partitioning of a trajectory should possess two desirable properties: 
+preciseness and conciseness. 
+Preciseness means that the difference between a trajectory and a set of its trajectory partitions 
+should be as small as possible. 
+Conciseness means that the number of trajectory partitions should be as small as possible. 
+This is called the MDL principle. [3] The cost of MDL consists of two terms L(H) and L(D|H). 
+Here, L(H) represents the sum of the length of all trajectory partitions. L(D|H) represents the sum of 
+the distance between a trajectory and a set of its trajectory partitions. 
+To get the optimal trajectory partitioning we minimize the MDL cost using an approximate algorithm [3]. 
+ 
+DISTANCE MEASURE 
+The distance between two t-partitions is defined as weighted mean of the perpendicular distance, 
+parallel distance and the angular distance.  
+
+DETECTION PHASE
+For each t-partition we find out the set of trajectories that are close to it. 
+A trajectory is said to be close to a t-partition if the length of the part of the trajectory similar 
+to the t-partition is greater than the t-partition’s length. Two t-partitions are said to be similar 
+if the distance between them is less than a threshold (𝐷). Now, if the product of a density parameter
+and number of trajectories close to a t-partition is less than a given fraction of the total number of 
+trajectories, then we say that the t-partition is an outlier. Density parameter for a t-partition is 
+the number of t-partitions which are within a distance equal to the standard deviation of all the pairwise
+distances between the t-partitions. 
+
+MARKING PHASE 
+If the ratio of total lengths of outlying t-partitions in a trajectory to the length of the trajectory 
+itself is greater than a given threshold then we say that the trajectory is an outlier.
+
+FUTURE WORK 
+Our outlier detector can be integrated with a supervised machine learning system so that it can learn 
+the parameters D, p, and F from a labelled data-set. Then the resulting system can be used as a component 
+of an anomaly detector or any other more abstract crowd behavior analysis tool. 
+
+DATA & SOURCE CODE 
+The data that we have used can be obtained by sending a request to: 
+mailto:alex.email@gmail.com
+
+REFERENCES 
+[1] Trajectory Outlier Detection: A Partition & Detect Framework, Jae - Gil Lee, Jiawei Han, Xiaolei Li. 
+[2] Socially-aware Large-scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei - Fei. 
+[3] Trajectory Clustering: A Partition-and-Group Framework, Jae - Gil Lee, Jiawei Han , K. Y. Whang 
