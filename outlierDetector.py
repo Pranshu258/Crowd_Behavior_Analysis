@@ -330,24 +330,19 @@ def plot_trajectory(traj, p):
     fig = plt.figure()
     # ax = fig.add_subplot(111, projection='3d')
     # ax.plot(x,y,t)
-    #plt.show()
-    #plt.plot(x, y)
-    plt.show()
+    plt.plot(x, y)
     fig.suptitle('TRAJECTORY ID: ' + str(p))
     plt.xlabel('x')
     plt.ylabel('y')
-    fig.savefig(str(p) + '.png')
-# Synthetic data generation method
-# def addbad_trajectories(T):
-#   i = len(T)+1
-#   return T
+    plt.show()
+    fig.savefig('Results/' + str(p) + '.png')
 
 
 ###################################################################################################
 # EXECUTION SECTION
 
 T = trajectory(filename, 10)
-O = traod(T, 40, 0.01, 0.4)
+O = traod(T, 37, 0.01, 0.4)
 print("Outliers: ", O)
 ###################################################################################################
 # RESULTS PLOTTING SECTION
