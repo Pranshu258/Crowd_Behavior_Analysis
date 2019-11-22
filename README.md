@@ -1,5 +1,6 @@
 ## CROWD BEHAVIOUR ANALYSIS
 Authors: Pranshu Gupta, Lavisha Aggarwal
+
 Artificial Intelligence, Indian Institute of Technology, Kanpur
 
 ### ABSTRACT 
@@ -50,5 +51,7 @@ mailto:alex.email@gmail.com
 
 ### REFERENCES 
 [1] Trajectory Outlier Detection: A Partition & Detect Framework, Jae - Gil Lee, Jiawei Han, Xiaolei Li. 
+
 [2] Socially-aware Large-scale Crowd Forecasting, Alexandre Alahi, Vignesh Ramanathan, Li Fei - Fei. 
+
 [3] Trajectory Clustering: A Partition-and-Group Framework, Jae - Gil Lee, Jiawei Han , K. Y. Whang 
